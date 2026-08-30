@@ -13,15 +13,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const petal = document.createElement('div');
             petal.classList.add('petal');
             
+            // Añadir emojis de flores
+            const flowers = ['🌸', '🌺', '🌷', '💮', '💜'];
+            petal.innerHTML = flowers[Math.floor(Math.random() * flowers.length)];
+            
             // Randomize position, size, and animation duration
             const startX = Math.random() * 100;
-            const size = Math.random() * 15 + 10;
-            const duration = Math.random() * 10 + 5;
-            const delay = Math.random() * 5;
+            const size = Math.random() * 1.5 + 0.8; // tamaño en rem
+            const duration = Math.random() * 10 + 10; // más lento para que sea sutil
+            const delay = Math.random() * 10;
 
             petal.style.left = `${startX}vw`;
-            petal.style.width = `${size}px`;
-            petal.style.height = `${size}px`;
+            petal.style.fontSize = `${size}rem`;
             petal.style.animationDuration = `${duration}s`;
             petal.style.animationDelay = `${delay}s`;
 
