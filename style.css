@@ -1,0 +1,385 @@
+:root {
+    --primary-color: #8a2be2;
+    --primary-light: #b179eb;
+    --primary-dark: #5c149d;
+    --bg-color: #f7ebff;
+    --envelope-color: #d1b3ff;
+    --text-color: #333;
+    --paper-color: #fff9f9;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f7ebff 0%, #e6ccff 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    color: var(--text-color);
+}
+
+/* Flores flotantes */
+#petals-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.petal {
+    position: absolute;
+    background-color: var(--primary-light);
+    border-radius: 150% 0 150% 0;
+    opacity: 0.6;
+    box-shadow: 0 0 10px rgba(138, 43, 226, 0.4);
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-10%) rotate(0deg) scale(0.5);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(110vh) rotate(360deg) scale(1);
+        opacity: 0;
+    }
+}
+
+/* Contenedor del Sobre */
+.envelope-wrapper {
+    position: relative;
+    width: 320px;
+    height: 220px;
+    cursor: pointer;
+    z-index: 10;
+    transition: transform 0.3s ease;
+}
+
+.envelope-wrapper:hover {
+    transform: scale(1.05);
+}
+
+.envelope {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: var(--envelope-color);
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(92, 20, 157, 0.3);
+}
+
+.envelope::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 110px 160px;
+    border-color: transparent transparent var(--primary-color) var(--primary-light);
+    border-radius: 10px;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.envelope::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 110px 160px;
+    border-color: transparent var(--primary-dark) var(--primary-color) transparent;
+    border-radius: 10px;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 130px 160px 0 160px;
+    border-color: var(--primary-light) transparent transparent transparent;
+    z-index: 4;
+    transform-origin: top;
+    transition: transform 1s ease, z-index 1s ease;
+}
+
+.heart-seal {
+    position: absolute;
+    top: 110px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 35px;
+    z-index: 5;
+    animation: heartbeat 1.5s infinite;
+}
+
+@keyframes heartbeat {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    15% { transform: translate(-50%, -50%) scale(1.2); }
+    30% { transform: translate(-50%, -50%) scale(1); }
+    45% { transform: translate(-50%, -50%) scale(1.2); }
+    60% { transform: translate(-50%, -50%) scale(1); }
+}
+
+.message-tap {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: 600;
+    color: var(--primary-dark);
+    font-size: 1.1rem;
+    white-space: nowrap;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+    40% { transform: translateX(-50%) translateY(-10px); }
+    60% { transform: translateX(-50%) translateY(-5px); }
+}
+
+/* Clases dinámicas de apertura */
+.envelope.open .flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.envelope.open .heart-seal,
+.envelope.open .message-tap {
+    display: none;
+}
+
+/* La Carta */
+.letter-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    background: rgba(247, 235, 255, 0.95);
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    overflow-y: auto;
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+.letter-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+    display: none;
+}
+
+.letter-container.fade-in {
+    display: flex;
+    animation: fadeInLetter 1.5s forwards;
+}
+
+@keyframes fadeInLetter {
+    0% { opacity: 0; transform: translateY(50px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.letter {
+    background-color: var(--paper-color);
+    width: 100%;
+    max-width: 600px;
+    padding: 30px 25px;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(138, 43, 226, 0.15);
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    line-height: 1.8;
+}
+
+.title {
+    font-family: 'Dancing Script', cursive;
+    color: var(--primary-dark);
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.letter p {
+    margin-bottom: 15px;
+    font-size: 1.05rem;
+    color: #444;
+    text-align: justify;
+}
+
+/* Galería / Fotos Polaroid */
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px 0;
+}
+
+.photo {
+    background: #fff;
+    padding: 10px 10px 30px 10px;
+    border-radius: 4px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transform: rotate(-3deg);
+    transition: transform 0.3s ease;
+    width: calc(50% - 10px);
+    max-width: 250px;
+}
+
+.photo:nth-child(even) {
+    transform: rotate(3deg);
+}
+
+.photo:nth-child(3) {
+    transform: rotate(-1deg);
+    width: 100%;
+    max-width: 280px;
+}
+
+.photo:hover {
+    transform: scale(1.05) rotate(0);
+    z-index: 2;
+}
+
+.photo img {
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+    object-fit: cover;
+}
+
+.signature-section {
+    margin-top: 40px;
+    text-align: right;
+}
+
+.signature {
+    font-family: 'Dancing Script', cursive;
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    line-height: 1.4;
+}
+
+.btn-container {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.surprise-btn {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.surprise-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(138, 43, 226, 0.6);
+}
+
+.surprise-btn:active {
+    transform: translateY(1px);
+}
+
+/* Pantalla final */
+.final-message {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(45, 10, 80, 0.95);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+}
+
+.final-message.hidden {
+    display: none;
+}
+
+.final-text {
+    font-family: 'Dancing Script', cursive;
+    color: #fff;
+    font-size: 3rem;
+    text-shadow: 0 0 20px var(--primary-light);
+    animation: scaleIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes scaleIn {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 480px) {
+    .envelope-wrapper {
+        width: 280px;
+        height: 190px;
+    }
+    
+    .envelope::before, .envelope::after {
+        border-width: 95px 140px;
+    }
+    
+    .flap {
+        border-width: 110px 140px 0 140px;
+    }
+    
+    .title {
+        font-size: 2.2rem;
+    }
+    
+    .letter p {
+        font-size: 1rem;
+    }
+    
+    .photo {
+        width: 100%;
+        max-width: 260px;
+    }
+    
+    .final-text {
+        font-size: 2.5rem;
+    }
+}
