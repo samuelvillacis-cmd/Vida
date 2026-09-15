@@ -1,72 +1,99 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const envelopeWrapper = document.getElementById('envelope-wrapper');
-    const envelope = document.getElementById('envelope');
-    const letterContainer = document.getElementById('letter-container');
-    const surpriseBtn = document.getElementById('surprise-btn');
-    const finalMessage = document.getElementById('final-message');
-    const petalsContainer = document.getElementById('petals-container');
+// DOM Elements
+const prevBtn = document.querySelector("#prev-btn");
+const nextBtn = document.querySelector("#next-btn");
+const book = document.querySelector("#book");
+const papers = document.querySelectorAll(".paper");
 
-    // Función para crear pétalos cayendo
-    function createPetals() {
-        const petalCount = 30;
-        for (let i = 0; i < petalCount; i++) {
-            const petal = document.createElement('div');
-            petal.classList.add('petal');
-            
-            // Añadir emojis de flores
-            const flowers = ['🌸', '🌺', '🌷', '💮', '💜'];
-            petal.innerHTML = flowers[Math.floor(Math.random() * flowers.length)];
-            
-            // Randomize position, size, and animation duration
-            const startX = Math.random() * 100;
-            const size = Math.random() * 1.5 + 0.8; // tamaño en rem
-            const duration = Math.random() * 10 + 10; // más lento para que sea sutil
-            const delay = Math.random() * 10;
+// Music Player Logic
+const bgMusic = document.querySelector("#bg-music");
+const musicBtn = document.querySelector("#music-btn");
+let isMusicPlaying = false;
 
-            petal.style.left = `${startX}vw`;
-            petal.style.fontSize = `${size}rem`;
-            petal.style.animationDuration = `${duration}s`;
-            petal.style.animationDelay = `${delay}s`;
-
-            petalsContainer.appendChild(petal);
-        }
+musicBtn.addEventListener("click", () => {
+    if (isMusicPlaying) {
+        bgMusic.pause();
+        musicBtn.textContent = "🎵 Reproducir Música";
+    } else {
+        bgMusic.play();
+        musicBtn.textContent = "⏸️ Pausar Música";
     }
-
-    // Iniciar pétalos al cargar
-    createPetals();
-
-    // Evento para abrir el sobre
-    envelopeWrapper.addEventListener('click', () => {
-        if (!envelope.classList.contains('open')) {
-            envelope.classList.add('open');
-            
-            // Esperar a que la animación de la solapa termine para mostrar la carta
-            setTimeout(() => {
-                envelopeWrapper.style.display = 'none';
-                letterContainer.classList.remove('hidden');
-                letterContainer.classList.add('fade-in');
-            }, 1000);
-        }
-    });
-
-    // Evento del botón sorpresa
-    surpriseBtn.addEventListener('click', () => {
-        letterContainer.style.display = 'none';
-        finalMessage.classList.remove('hidden');
-        
-        // Crear más flores intensas para el final
-        const finalFlowersContainer = finalMessage.querySelector('.flowers-container');
-        for (let i = 0; i < 50; i++) {
-            const flower = document.createElement('div');
-            flower.innerHTML = '💜';
-            flower.style.position = 'absolute';
-            flower.style.fontSize = `${Math.random() * 2 + 1}rem`;
-            flower.style.left = `${Math.random() * 100}vw`;
-            flower.style.top = `${Math.random() * 100}vh`;
-            flower.style.opacity = '0';
-            flower.style.animation = `scaleIn 0.5s ease forwards ${Math.random() * 2}s`;
-            
-            finalFlowersContainer.appendChild(flower);
-        }
-    });
+    isMusicPlaying = !isMusicPlaying;
 });
+
+// Book Business Logic
+let currentLocation = 1;
+let numOfPapers = papers.length;
+let maxLocation = numOfPapers + 1;
+
+// Initialize Z-indexes dynamically
+papers.forEach((paper, index) => {
+    paper.style.zIndex = numOfPapers - index;
+});
+
+// Event Listeners
+prevBtn.addEventListener("click", goPrevPage);
+nextBtn.addEventListener("click", goNextPage);
+
+function openBook() {
+    if (window.innerWidth <= 800) return;
+    book.style.transform = "translateX(0%)";
+}
+
+function closeBook(isAtBeginning) {
+    if (window.innerWidth <= 800) return;
+    if(isAtBeginning) {
+        book.style.transform = "translateX(-25%)";
+    } else {
+        book.style.transform = "translateX(25%)";
+    }
+}
+
+function goNextPage() {
+    if(currentLocation < maxLocation) {
+        if (currentLocation === 1) {
+            openBook();
+        }
+        
+        if (currentLocation === numOfPapers) {
+            closeBook(false);
+        }
+        
+        // Flip the current paper
+        const paperToFlip = papers[currentLocation - 1];
+        paperToFlip.classList.add("flipped");
+        paperToFlip.style.zIndex = currentLocation;
+        
+        currentLocation++;
+        updateButtons();
+    }
+}
+
+function goPrevPage() {
+    if(currentLocation > 1) {
+        if (currentLocation === 2) {
+            closeBook(true);
+        }
+        
+        if (currentLocation === maxLocation) {
+            openBook();
+        }
+        
+        // Unflip the previous paper
+        const paperToUnflip = papers[currentLocation - 2];
+        paperToUnflip.classList.remove("flipped");
+        paperToUnflip.style.zIndex = numOfPapers - (currentLocation - 2);
+        
+        currentLocation--;
+        updateButtons();
+    }
+}
+
+function updateButtons() {
+    prevBtn.disabled = currentLocation === 1;
+    nextBtn.disabled = currentLocation === maxLocation;
+}
+
+// Initial state
+updateButtons();
+closeBook(true);
+

@@ -1,383 +1,400 @@
 :root {
-    --primary-color: #8a2be2;
-    --primary-light: #b179eb;
-    --primary-dark: #5c149d;
-    --bg-color: #f7ebff;
-    --envelope-color: #d1b3ff;
-    --text-color: #333;
-    --paper-color: #fff9f9;
+    --bg-color: #2c2522;
+    --book-cover: #5e3a2f;
+    --paper-color: #f4ecd8;
+    --paper-edge: #d1c5a9;
+    --text-color: #3b2f2f;
+    --accent-color: #a84646;
 }
 
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #f7ebff 0%, #e6ccff 100%);
-    min-height: 100vh;
+    background-color: var(--bg-color);
+    background-image: radial-gradient(circle at center, #423632 0%, #1a1614 100%);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow-x: hidden;
+    min-height: 100vh;
+    font-family: 'Special Elite', monospace;
     color: var(--text-color);
+    overflow-x: hidden;
 }
 
-/* Flores flotantes */
-#petals-container {
+/* Music Controls */
+.music-controls {
     position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+}
+
+#music-btn {
+    background-color: rgba(94, 58, 47, 0.8);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+#music-btn:hover {
+    background-color: rgba(94, 58, 47, 1);
+}
+
+/* Typography */
+h1 {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    color: #e6dcc8;
+    text-align: center;
+    line-height: 1.1;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.handwriting {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+    line-height: 1.4;
+    margin-bottom: 15px;
+}
+
+.typewriter {
+    font-family: 'Special Elite', monospace;
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Book Wrapper and 3D Context */
+.book-wrapper {
+    perspective: 1500px;
+    margin-bottom: 30px;
+    margin-top: 60px;
+}
+
+.book {
+    position: relative;
+    width: 85vw;
+    max-width: 900px;
+    height: 75vh;
+    max-height: 650px;
+    transition: transform 0.5s;
+}
+
+/* Each Paper */
+.paper {
+    position: absolute;
+    width: 50%;
+    height: 100%;
     top: 0;
-    left: 0;
+    right: 0;
+    perspective: 1500px;
+    transform-origin: left center;
+    transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transform-style: preserve-3d;
+}
+
+/* Flipped State */
+.paper.flipped {
+    transform: rotateY(-180deg);
+}
+
+/* Front and Back of Each Paper */
+.front, .back {
+    position: absolute;
     width: 100%;
     height: 100%;
-    pointer-events: none;
-    z-index: 50;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden;
+    background-color: var(--paper-color);
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
 
-.petal {
-    position: absolute;
-    opacity: 0.7;
-    animation: fall linear infinite;
-    filter: hue-rotate(-60deg);
-}
-
-@keyframes fall {
-    0% {
-        transform: translateY(-10%) rotate(0deg) scale(0.5);
-        opacity: 0;
-    }
-    10% {
-        opacity: 0.8;
-    }
-    100% {
-        transform: translateY(110vh) rotate(360deg) scale(1);
-        opacity: 0;
-    }
-}
-
-/* Contenedor del Sobre */
-.envelope-wrapper {
-    position: relative;
-    width: 320px;
-    height: 220px;
-    cursor: pointer;
-    z-index: 10;
-    transition: transform 0.3s ease;
-}
-
-.envelope-wrapper:hover {
-    transform: scale(1.05);
-}
-
-.envelope {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background-color: var(--envelope-color);
-    border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(92, 20, 157, 0.3);
-}
-
-.envelope::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 110px 160px;
-    border-color: transparent transparent var(--primary-color) var(--primary-light);
-    border-radius: 10px;
-    z-index: 3;
-    pointer-events: none;
-}
-
-.envelope::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 110px 160px;
-    border-color: transparent var(--primary-dark) var(--primary-color) transparent;
-    border-radius: 10px;
-    z-index: 3;
-    pointer-events: none;
-}
-
-.flap {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 130px 160px 0 160px;
-    border-color: var(--primary-light) transparent transparent transparent;
-    z-index: 4;
-    transform-origin: top;
-    transition: transform 1s ease, z-index 1s ease;
-}
-
-.heart-seal {
-    position: absolute;
-    top: 110px;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 35px;
-    z-index: 5;
-    animation: heartbeat 1.5s infinite;
-}
-
-@keyframes heartbeat {
-    0% { transform: translate(-50%, -50%) scale(1); }
-    15% { transform: translate(-50%, -50%) scale(1.2); }
-    30% { transform: translate(-50%, -50%) scale(1); }
-    45% { transform: translate(-50%, -50%) scale(1.2); }
-    60% { transform: translate(-50%, -50%) scale(1); }
-}
-
-.message-tap {
-    position: absolute;
-    bottom: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-weight: 600;
-    color: var(--primary-dark);
-    font-size: 1.1rem;
-    white-space: nowrap;
-    animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-    40% { transform: translateX(-50%) translateY(-10px); }
-    60% { transform: translateX(-50%) translateY(-5px); }
-}
-
-/* Clases dinámicas de apertura */
-.envelope.open .flap {
-    transform: rotateX(180deg);
+.front {
     z-index: 1;
+    border-left: 1px solid rgba(0,0,0,0.1);
+    border-radius: 0 8px 8px 0;
 }
 
-.envelope.open .heart-seal,
-.envelope.open .message-tap {
-    display: none;
+.back {
+    z-index: 0;
+    transform: rotateY(180deg);
+    border-right: 1px solid rgba(0,0,0,0.1);
+    border-radius: 8px 0 0 8px;
 }
 
-/* La Carta */
-.letter-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-height: 100vh;
-    background: rgba(247, 235, 255, 0.95);
-    z-index: 20;
+/* Paper Textures & Styles */
+.page-content {
+    background-image: 
+        linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%),
+        repeating-linear-gradient(0deg, transparent, transparent 27px, #e0d5ba 28px);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-inner {
+    padding: 10px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Solves text overflow */
+    overflow-x: hidden;
+}
+
+/* Hide scrollbar for a cleaner look but keep functionality */
+.content-inner::-webkit-scrollbar {
+    width: 6px;
+}
+.content-inner::-webkit-scrollbar-thumb {
+    background: rgba(168, 70, 70, 0.3); 
+    border-radius: 10px;
+}
+
+/* Cover Styling */
+.cover {
+    background-color: var(--book-cover);
+    background-image: url('https://www.transparenttextures.com/patterns/leather.png');
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    padding: 20px;
-    overflow-y: auto;
-    opacity: 1;
-    transition: opacity 1s ease;
+    align-items: center;
+    box-shadow: inset 5px 0 20px rgba(0,0,0,0.3);
 }
 
-.letter-container.hidden {
-    opacity: 0;
-    pointer-events: none;
-    display: none;
+.cover.back-cover {
+    box-shadow: inset -5px 0 20px rgba(0,0,0,0.3);
 }
 
-.letter-container.fade-in {
-    display: flex;
-    animation: fadeInLetter 1.5s forwards;
-}
-
-@keyframes fadeInLetter {
-    0% { opacity: 0; transform: translateY(50px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-.letter {
-    background-color: var(--paper-color);
-    width: 100%;
-    max-width: 600px;
-    padding: 30px 25px;
-    border-radius: 12px;
-    box-shadow: 0 15px 35px rgba(138, 43, 226, 0.15);
+.cover-content {
+    border: 2px dashed #9c7b6c;
+    padding: 30px;
+    border-radius: 10px;
     position: relative;
-    margin-top: 20px;
-    margin-bottom: 40px;
-    line-height: 1.8;
-}
-
-.title {
-    font-family: 'Dancing Script', cursive;
-    color: var(--primary-dark);
-    font-size: 2.5rem;
-    margin-bottom: 20px;
     text-align: center;
 }
 
-.letter p {
-    margin-bottom: 15px;
-    font-size: 1.05rem;
-    color: #444;
-    text-align: justify;
+/* Tape */
+.tape {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-3deg);
+    width: 100px;
+    height: 30px;
+    background-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    border-left: 1px dashed rgba(0,0,0,0.1);
+    border-right: 1px dashed rgba(0,0,0,0.1);
 }
 
-/* Galería / Fotos Polaroid */
-.gallery {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    margin: 30px 0;
+.tape-small {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%) rotate(2deg);
+    width: 60px;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    z-index: 10;
 }
 
-.photo {
+/* Polaroid Styles (Interactive) */
+.polaroid-container {
+    perspective: 1000px;
+    margin: 15px auto;
+    width: 85%;
+    max-width: 220px;
+    aspect-ratio: 0.85;
+    cursor: pointer;
+    flex-shrink: 0; /* Prevent squishing */
+}
+
+.polaroid-container.small {
+    max-width: 160px;
+}
+
+.polaroid {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    position: relative;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.polaroid.flipped {
+    transform: rotateY(180deg);
+}
+
+.polaroid-inner {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+}
+
+.polaroid-front, .polaroid-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
     background: #fff;
     padding: 10px 10px 30px 10px;
-    border-radius: 4px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transform: rotate(-3deg);
-    transition: transform 0.3s ease;
-    width: calc(50% - 10px);
-    max-width: 250px;
-}
-
-.photo:nth-child(even) {
-    transform: rotate(3deg);
-}
-
-.photo:nth-child(3) {
-    transform: rotate(-1deg);
-    width: 100%;
-    max-width: 280px;
-}
-
-.photo:hover {
-    transform: scale(1.05) rotate(0);
-    z-index: 2;
-}
-
-.photo img {
-    width: 100%;
-    height: auto;
-    border-radius: 2px;
-    object-fit: cover;
-}
-
-.signature-section {
-    margin-top: 40px;
-    text-align: right;
-}
-
-.signature {
-    font-family: 'Dancing Script', cursive;
-    color: var(--primary-color);
-    font-size: 1.8rem;
-    line-height: 1.4;
-}
-
-.btn-container {
-    text-align: center;
-    margin-top: 40px;
-}
-
-.surprise-btn {
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    font-size: 1.1rem;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    border-radius: 30px;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
-    transition: all 0.3s ease;
-    outline: none;
-}
-
-.surprise-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(138, 43, 226, 0.6);
-}
-
-.surprise-btn:active {
-    transform: translateY(1px);
-}
-
-/* Pantalla final */
-.final-message {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(45, 10, 80, 0.95);
-    z-index: 100;
     display: flex;
+    flex-direction: column;
+}
+
+.polaroid-front img {
+    width: 100%;
+    height: calc(100% - 30px);
+    object-fit: cover;
+    border: 1px solid #ddd;
+}
+
+.caption {
+    text-align: center;
+    margin-top: 5px;
+    font-size: 1.1rem;
+    color: #444;
+}
+
+.polaroid-back {
+    transform: rotateY(180deg);
+    background: #fdfaf0;
     justify-content: center;
     align-items: center;
     padding: 20px;
     text-align: center;
+    border: 1px solid #e0d5ba;
 }
 
-.final-message.hidden {
-    display: none;
+.polaroid-back .note {
+    font-size: 1.4rem;
+    color: #5a4b41;
 }
 
-.final-text {
-    font-family: 'Dancing Script', cursive;
-    color: #fff;
-    font-size: 3rem;
-    text-shadow: 0 0 20px var(--primary-light);
-    animation: scaleIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+/* Heart Animation */
+.heart.pulse {
+    font-size: 40px;
+    text-align: center;
+    margin: 10px auto;
+    animation: pulse 1.5s infinite;
 }
 
-@keyframes scaleIn {
-    0% { transform: scale(0); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
 }
 
-@media (max-width: 480px) {
-    .envelope-wrapper {
-        width: 280px;
-        height: 190px;
+.end-note {
+    font-size: 2.5rem;
+    color: #e6dcc8;
+    text-align: center;
+}
+
+/* Navigation Buttons */
+.navigation {
+    display: flex;
+    gap: 20px;
+    z-index: 10;
+    margin-top: 20px;
+}
+
+button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-family: 'Special Elite', monospace;
+    font-size: 1.1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+button:hover {
+    background-color: #8c3535;
+}
+
+button:active {
+    transform: translateY(2px);
+}
+
+button:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* Responsive adjustments for Mobile */
+@media (max-width: 800px) {
+    body {
+        justify-content: flex-start;
+        padding: 80px 15px 30px 15px; /* space for music button */
+        height: auto;
     }
-    
-    .envelope::before, .envelope::after {
-        border-width: 95px 140px;
+
+    .navigation {
+        display: none; /* Hide 3D book navigation on mobile */
     }
-    
-    .flap {
-        border-width: 110px 140px 0 140px;
-    }
-    
-    .title {
-        font-size: 2.2rem;
-    }
-    
-    .letter p {
-        font-size: 1rem;
-    }
-    
-    .photo {
+
+    .book-wrapper {
+        perspective: none;
+        margin: 0;
         width: 100%;
-        max-width: 260px;
+    }
+
+    /* Transform the 3D book into a vertical scrolling feed */
+    .book {
+        width: 100%;
+        height: auto;
+        max-height: none;
+        transform: none !important;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .paper {
+        position: relative;
+        width: 100%;
+        height: auto;
+        transform: none !important;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .front, .back {
+        position: relative;
+        width: 100%;
+        height: auto;
+        min-height: 60vh;
+        transform: none !important;
+        border-radius: 12px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        border: none;
     }
     
-    .final-text {
-        font-size: 2.5rem;
+    .front {
+        z-index: auto;
+    }
+    
+    .back {
+        z-index: auto;
+    }
+
+    /* Allow content to grow naturally */
+    .content-inner {
+        overflow-y: visible;
+        padding: 20px;
     }
 }

@@ -3,65 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para mi amor 💜</title>
+    <title>Nuestro Libro de Aventuras</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Contenedor de las flores moradas flotantes (fondo) -->
-    <div id="petals-container"></div>
-
-    <!-- El Sobre Cerrado -->
-    <div class="envelope-wrapper" id="envelope-wrapper">
-        <div class="envelope" id="envelope">
-            <div class="flap"></div>
-            <div class="body"></div>
-            <div class="front"></div>
-            <div class="message-tap">Toca para abrir 💜</div>
-            <div class="heart-seal">❤️</div>
-        </div>
-    </div>
-
-    <!-- La Carta -->
-    <div class="letter-container hidden" id="letter-container">
-        <div class="letter">
-            <h1 class="title">Mi amor:</h1>
-            <p>Sé que este mes ha sido largo y que hemos estado lejos por la distancia, pero eso nunca será un impedimento para recordarte lo importante que eres para mí. Quiero hacerte este pequeño recordatorio, aunque siento que ni todas las palabras del mundo serían suficientes para explicarte cuánto te amo.</p>
-            <p>Eres mi persona favorita en todo el mundo. Eres esa persona cuyo pequeño mensajito por las mañanas puede alegrarme el día por completo. Eres la persona que, con solo estar presente, hace que mis días sean diferentes, más bonitos y mucho más especiales.</p>
-            <p>Quiero agradecerte por todo el esfuerzo que haces cada día, por tu paciencia, por estar conmigo a pesar de la distancia y, sobre todo, por todo el amor que me das, mi vidita preciosa. ❤️</p>
-            
-            <div class="gallery">
-                <div class="photo">
-                    <img src="img/Screenshot 2026-08-30 151758.png" alt="Recuerdo juntos">
-                </div>
-                <div class="photo">
-                    <img src="img/Screenshot 2026-08-30 151809.png" alt="Recuerdo juntos">
-                </div>
-                <div class="photo">
-                    <img src="img/Screenshot 2026-08-30 151927.png" alt="Recuerdo juntos">
-                </div>
-            </div>
-
-            <p>Hay momentos durante el día en los que me pongo a recordar todo lo que hemos vivido juntos, todos esos momentos que hemos disfrutado, las risas, los abrazos, las pequeñas cosas que quizá parecen simples, pero que para mí significan muchísimo. Y, especialmente, recuerdo lo feliz que soy cuando estoy a tu lado.</p>
-            <p>Me acuerdo de aquellas veces en las que dormíamos juntos en Portoviejo, de cuando te esperaba con tantas ansias para que llegaras a casa, de poder verte después de extrañarte durante el día y de esos momentos en los que te veía comer con tanta ilusión lo que te preparaba con mucho amor. Son recuerdos que guardo con muchísimo cariño en mi corazón y que me hacen desear todavía más volver a vivirlos contigo.</p>
-            <p>Eres mi vida, mi amor y una de las partes más bonitas de mi mundo. Nunca quiero que se te olvide cuánto te ama mi corazón. Aunque estemos lejos, sigues estando presente en cada parte de mis días.</p>
-            <p>Cada noche te extraño. Cada noche me pregunto cómo sería tenerte aquí conmigo, poder abrazarte, dormir a tu lado y simplemente disfrutar de tu compañía. A veces la distancia se siente demasiado larga, pero cuando pienso en nosotros, recuerdo que todo vale la pena.</p>
-            <p>Eres lo mejor de mi vida y quería que lo supieras una vez más. Quiero que recuerdes siempre que, sin importar cuántos kilómetros nos separen, mi amor por ti sigue estando aquí, tan fuerte como siempre.</p>
-            <p>Te amo un mundo entero y todavía más, un amor más grande que la Tierra y que cualquier distancia que pueda existir entre nosotros. 🌎❤️</p>
-            
-            <div class="signature-section">
-                <h2 class="signature">Te amo muchísimo, mi vidita preciosa.<br><br>Atentamente,<br>tu hombre. ❤️</h2>
-            </div>
-            
-            <div class="btn-container">
-                <button id="surprise-btn" class="surprise-btn">Toca aquí una vez más ✨</button>
-            </div>
-        </div>
-    </div>
     
-    <!-- Mensaje Final -->
-    <div id="final-message" class="final-message hidden">
-        <h1 class="final-text">Te apoyo en todo y te amo demasiado 💜</h1>
+    <!-- Music Player -->
+    <audio id="bg-music" loop>
+        <source src="./musicas/Creo en Ti(MP3_160K).mp3" type="audio/mpeg">
+    </audio>
+    <div class="music-controls">
+        <button id="music-btn">🎵 Reproducir Música</button>
+    </div>
+
+    <div class="book-wrapper">
+        <div class="book" id="book">
+            
+            <!-- Paper 1 -->
+            <div class="paper" id="p1">
+                <div class="front cover">
+                    <div class="cover-content">
+                        <h1>Para ti,<br>mi amor</h1>
+                        <div class="tape"></div>
+                    </div>
+                </div>
+                <div class="back page-content">
+                    <div class="content-inner">
+                        <p class="handwriting">Te escribo esta pequeña carta para recordarte lo especial que eres para mí y lo importante que eres en mi vida.</p>
+                        <p class="handwriting">Eres una persona excepcional que ha tenido que vivir muchas dificultades, y por eso te admiro muchísimo como mujer. A pesar de todas las circunstancias, te has mantenido firme y has luchado con las fuerzas que has tenido, y eso es algo que admiro profundamente de ti, amor.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paper 2 -->
+            <div class="paper" id="p2">
+                <div class="front page-content right-page">
+                    <div class="content-inner">
+                        <div class="polaroid-container">
+                            <div class="polaroid" onclick="this.classList.toggle('flipped')">
+                                <div class="polaroid-inner">
+                                    <div class="polaroid-front">
+                                        <div class="tape-small"></div>
+                                        <img src="./fotos juntos/foto 1.jpeg" alt="Nosotros">
+                                        <p class="caption handwriting">Click para girar ↺</p>
+                                    </div>
+                                    <div class="polaroid-back">
+                                        <p class="handwriting note">"Eres una mujer muy inteligente, aunque a veces no quieras verlo."</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="handwriting" style="font-size: 1.4rem; text-align:center; margin-top:10px;">También eres una muy buena amiga, y una tía tan linda, cariñosa y amorosa con tus sobrinos.</p>
+                    </div>
+                </div>
+                <div class="back page-content left-page">
+                    <div class="content-inner">
+                        <p class="handwriting">Quiero agradecerte por el esfuerzo constante que haces por nuestra relación. Sé que las relaciones no siempre son fáciles, y que a distancia pueden ser aún más complicadas.</p>
+                        <p class="handwriting">Por eso, te agradezco mucho tu paciencia, tus ganas de hablar conmigo cada día y todo el esfuerzo que haces para que sigamos estando juntos a pesar de la distancia.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paper 3 -->
+            <div class="paper" id="p3">
+                <div class="front page-content right-page">
+                    <div class="content-inner" style="display:flex; flex-direction:column; justify-content:center; align-items:center;">
+                        
+                        <div class="polaroid-container small" style="transform: rotate(-3deg); margin-bottom: 15px;">
+                            <div class="polaroid" onclick="this.classList.toggle('flipped')">
+                                <div class="polaroid-inner">
+                                    <div class="polaroid-front">
+                                        <div class="tape-small"></div>
+                                        <img src="./fotos juntos/foto 2.jpeg" alt="Nosotros">
+                                        <p class="caption handwriting" style="font-size: 1rem;">Click ↺</p>
+                                    </div>
+                                    <div class="polaroid-back">
+                                        <div class="heart pulse" style="font-size: 30px;">❤️</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="handwriting">Gracias por entenderme incluso cuando las cosas han sido difíciles.</p>
+                        <p class="handwriting">Gracias por estar ahí cuando yo he estado mal y, sobre todo, gracias por todo tu cariño, incluso cuando no podemos estar físicamente cerca.</p>
+                    </div>
+                </div>
+                <div class="back page-content left-page">
+                    <div class="content-inner">
+                        <p class="handwriting">Ya quiero verte, mi amor. Extraño tus abrazos, tus besos, tus bromas y todo de ti.</p>
+                        
+                        <div class="polaroid-container small" style="transform: rotate(2deg); margin: 15px auto;">
+                            <div class="polaroid" onclick="this.classList.toggle('flipped')">
+                                <div class="polaroid-inner">
+                                    <div class="polaroid-front">
+                                        <img src="./fotos juntos/foto 3.jpeg" alt="Nosotros">
+                                        <p class="caption handwriting" style="font-size: 1rem;">Click ↺</p>
+                                    </div>
+                                    <div class="polaroid-back">
+                                        <p class="handwriting note" style="font-size:1.2rem;">"Eres mi lugar favorito."</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="handwriting">Una de mis cosas favoritas es poder estar solamente los dos. No importa qué hagamos; incluso si solo estamos acostados sin hacer nada, yo quiero estar ahí, pero contigo, amor.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paper 4 -->
+            <div class="paper" id="p4">
+                <div class="front page-content right-page">
+                    <div class="content-inner">
+                        <p class="handwriting" style="margin-bottom:15px;">Te amo y te extraño cada día.</p>
+                        <p class="typewriter">Y quiero que recuerdes que tú puedes con todo lo que viene. Sé que la universidad puede darte un poco de rechazo o hacerte sentir que no quieres empezar, pero quiero que tengas presente que yo voy a estar aquí en todo momento.</p>
+                        
+                        <div class="polaroid-container small" style="margin-top:15px; transform: rotate(-2deg);">
+                            <div class="polaroid" onclick="this.classList.toggle('flipped')">
+                                <div class="polaroid-inner">
+                                    <div class="polaroid-front">
+                                        <div class="tape-small"></div>
+                                        <img src="./fotos juntos/foto 4.jpeg" alt="Nosotros">
+                                        <p class="caption handwriting" style="font-size: 1rem;">Click ↺</p>
+                                    </div>
+                                    <div class="polaroid-back">
+                                        <p class="handwriting note" style="font-size:1.2rem;">"Eres capaz de todo."</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back page-content left-page">
+                    <div class="content-inner">
+                        <p class="typewriter">Sé que eres capaz de afrontar este nuevo ciclo y hacerlo de una manera increíble, con esa determinación que tanto admiro de ti y que me hace sentir muy orgulloso y feliz de tenerte en mi vida.</p>
+                        
+                        <div style="display:flex; justify-content:space-around; margin-top:15px; flex-wrap: wrap;">
+                            <div class="polaroid-container small" style="transform: rotate(-4deg); max-width: 45%;">
+                                <div class="polaroid" onclick="this.classList.toggle('flipped')">
+                                    <div class="polaroid-inner">
+                                        <div class="polaroid-front">
+                                            <img src="./fotos juntos/foto 5.jpeg" alt="Nosotros">
+                                            <p class="caption handwriting" style="font-size: 0.9rem;">Click ↺</p>
+                                        </div>
+                                        <div class="polaroid-back">
+                                            <div class="heart pulse" style="font-size: 25px;">❤️</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="polaroid-container small" style="transform: rotate(3deg); max-width: 45%;">
+                                <div class="polaroid" onclick="this.classList.toggle('flipped')">
+                                    <div class="polaroid-inner">
+                                        <div class="polaroid-front">
+                                            <img src="./fotos juntos/foto 6.jpeg" alt="Nosotros">
+                                            <p class="caption handwriting" style="font-size: 0.9rem;">Click ↺</p>
+                                        </div>
+                                        <div class="polaroid-back">
+                                            <p class="handwriting note" style="font-size:1.1rem;">"Siempre juntos."</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paper 5 -->
+            <div class="paper" id="p5">
+                <div class="front page-content right-page">
+                    <div class="content-inner">
+                        <p class="handwriting">Siempre que quieras conversar, desahogarte, contarme algo o simplemente necesites compañía, puedes hacerlo conmigo.</p>
+                        
+                        <div class="polaroid-container" style="transform: rotate(1deg); margin: 15px auto;">
+                            <div class="polaroid" onclick="this.classList.toggle('flipped')">
+                                <div class="polaroid-inner">
+                                    <div class="polaroid-front">
+                                        <div class="tape-small"></div>
+                                        <img src="./fotos juntos/foto 7.jpeg" alt="Nosotros">
+                                        <p class="caption handwriting">Click ↺</p>
+                                    </div>
+                                    <div class="polaroid-back">
+                                        <p class="handwriting note">"No tienes que afrontar todo sola, mi amor."</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="handwriting">Yo voy a estar aquí para escucharte y acompañarte.</p>
+                    </div>
+                </div>
+                <div class="back page-content left-page">
+                    <div class="content-inner" style="display:flex; flex-direction:column; justify-content:center; align-items:center;">
+                        <p class="handwriting" style="font-size: 2.2rem; text-align:center;">Te amo muchísimo y espero poder abrazarte muy pronto.</p>
+                        <div class="heart pulse" style="font-size: 50px;">❤️</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paper 6 -->
+            <div class="paper" id="p6">
+                <div class="front page-content right-page">
+                    <div class="content-inner" style="display:flex; flex-direction:column; justify-content:center; align-items:center;">
+                        <p class="handwriting" style="font-size: 1.8rem; text-align:center; margin-bottom: 20px;">Hay un Dios que te ama mucho y siempre está para cuando lo necesites.</p>
+                        
+                        <div class="polaroid-container" style="transform: rotate(-2deg);">
+                            <div class="polaroid" onclick="this.classList.toggle('flipped')">
+                                <div class="polaroid-inner">
+                                    <div class="polaroid-front">
+                                        <div class="tape-small"></div>
+                                        <img src="./fotos juntos/foto 8.jpeg" alt="Nosotros">
+                                        <p class="caption handwriting">Click ↺</p>
+                                    </div>
+                                    <div class="polaroid-back">
+                                        <p class="handwriting note">"Con todo mi amor."</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back cover back-cover">
+                    <div class="cover-content">
+                        <p class="handwriting end-note">Con todo mi amor.</p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- Navigation Controls -->
+    <div class="navigation">
+        <button id="prev-btn">🡠 Anterior</button>
+        <button id="next-btn">Siguiente ➔</button>
     </div>
 
     <script src="script.js"></script>
